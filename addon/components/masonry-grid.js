@@ -56,15 +56,20 @@ export default Ember.Component.extend({
   layoutMasonry: Ember.observer('items.@each', function () {
     var _this = this;
 
-    if (this.items.then) {
-        this.items.then(fulfill, reject);
+    if (_this.items.then) {
+        _this.items.then(fulfill, reject);
     } else {
         fulfill();
     }
 
     function fulfill(answer) {
 
-      this.send('refreshLayout');
+      if (_this.get('masonryInitialized')) {
+        _this.$().masonry();
+      } else {
+       _this.$().masonry(_this.get('options'));
+       _this.set('masonryInitialized', true);
+      }
 
     }
 
@@ -72,22 +77,22 @@ export default Ember.Component.extend({
         console.log(reason);
     }
   }),
-  
-  
+
+
   actions: {
-   
+
     refreshLayout: function () {
-      
+
       if (_this.get('masonryInitialized')) {
         _this.$().masonry();
       } else {
        _this.$().masonry(_this.get('options'));
        _this.set('masonryInitialized', true);
       }
-      
-      return false;    
+
+      return false;
     }
-    
-  } 
-  
+
+  }
+
 });

@@ -66,10 +66,10 @@ export default Ember.Component.extend({
 
       if (_this.get('masonryInitialized')) {
         _this.$().masonry();
+      } else {
+       _this.$().masonry(_this.get('options'));
+       _this.set('masonryInitialized', true);
       }
-
-      _this.$().masonry(_this.get('options'));
-      _this.set('masonryInitialized', true);
 
     }
 

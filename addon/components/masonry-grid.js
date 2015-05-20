@@ -64,17 +64,30 @@ export default Ember.Component.extend({
 
     function fulfill(answer) {
 
-      if (_this.get('masonryInitialized')) {
-        _this.$().masonry();
-      } else {
-       _this.$().masonry(_this.get('options'));
-       _this.set('masonryInitialized', true);
-      }
+      this.send('refreshLayout');
 
     }
 
     function reject(reason) {
         console.log(reason);
     }
-  })
+  }),
+  
+  
+  actions: {
+   
+    refreshLayout: function () {
+      
+      if (_this.get('masonryInitialized')) {
+        _this.$().masonry();
+      } else {
+       _this.$().masonry(_this.get('options'));
+       _this.set('masonryInitialized', true);
+      }
+      
+      return false;    
+    }
+    
+  } 
+  
 });

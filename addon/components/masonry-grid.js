@@ -45,16 +45,36 @@ export default Ember.Component.extend({
     this.layoutMasonry();
   }),
 
+  tearDownMasonry: Ember.on('willDestroyElement', function () {
+    var _this = this;
+
+    if (_this.get('masonryInitialized')) {
+      _this.$().masonry('destroy');
+    }
+  }),
+
   layoutMasonry: Ember.observer('items.@each', function () {
     var _this = this;
 
-    imagesLoaded(this.$(), function () {
+    if (this.items.then) {
+        this.items.then(fulfill, reject);
+    } else {
+        fulfill();
+    }
+
+    function fulfill(answer) {
+
       if (_this.get('masonryInitialized')) {
-        _this.$().masonry('destroy');
+        _this.$().masonry();
       }
 
       _this.$().masonry(_this.get('options'));
       _this.set('masonryInitialized', true);
-    });
+
+    }
+
+    function reject(reason) {
+        console.log(reason);
+    }
   })
 });

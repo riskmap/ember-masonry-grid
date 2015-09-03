@@ -43,7 +43,7 @@ export default Ember.Component.extend({
         ]));
 
         this.layoutMasonry();
-    }),
+    },
 
     layoutMasonry: Ember.observer('items.[]', function () {
         var _this = this;
